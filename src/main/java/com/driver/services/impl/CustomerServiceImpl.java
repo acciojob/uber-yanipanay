@@ -48,10 +48,10 @@ public class CustomerServiceImpl implements CustomerService {
 
 		Customer customer = customerRepository2.findById(customerId).get();
 		List<Cab> cabs = cabRepository2.findAll();
-
+		Cab bookedCab = null;
 		for(Cab cab : cabs){
 			if (cab.getAvailable()){
-				Cab bookedCab=cab;
+				bookedCab=cab;
 				int fare = bookedCab.getPerKmRate()*distanceInKm;
 				Driver driver = bookedCab.getDriver();
 				booking.setCustomer(customer);
@@ -71,6 +71,8 @@ public class CustomerServiceImpl implements CustomerService {
 				break;
 			}
 		}
+
+		if(bookedCab==null) throw new Exception("No Cab Available");
 
 		tripBookingRepository2.save(booking);
 
