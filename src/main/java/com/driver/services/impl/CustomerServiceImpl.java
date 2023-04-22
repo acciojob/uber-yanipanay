@@ -49,25 +49,25 @@ public class CustomerServiceImpl implements CustomerService {
 		Customer customer = customerRepository2.findById(customerId).get();
 		List<Cab> cabs = cabRepository2.findAll();
 
-		Cab bookedCab = null;
 		for(Cab cab : cabs){
 			if (cab.getAvailable()){
-				bookedCab=cab;
+				Cab bookedCab=cab;
+				int fare = bookedCab.getPerKmRate()*distanceInKm;
+				Driver driver = bookedCab.getDriver();
+
+				booking.setCustomer(customer);
+				booking.setBill(fare);
+				booking.setDriver(driver);
+
+				booking.setDistanceInKm(distanceInKm);
+				booking.setFromLocation(fromLocation);
+				booking.setToLocation(toLocation);
+				booking.setStatus(TripStatus.CONFIRMED);
 				break;
 			}
 		}
 
-		int fare = bookedCab.getPerKmRate()*distanceInKm;
-		Driver driver = bookedCab.getDriver();
 
-		booking.setCustomer(customer);
-		booking.setBill(fare);
-		booking.setDriver(driver);
-
-		booking.setDistanceInKm(distanceInKm);
-		booking.setFromLocation(fromLocation);
-		booking.setToLocation(toLocation);
-		booking.setStatus(TripStatus.CONFIRMED);
 
 		tripBookingRepository2.save(booking);
 
