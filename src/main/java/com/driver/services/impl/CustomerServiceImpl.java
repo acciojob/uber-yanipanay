@@ -58,6 +58,12 @@ public class CustomerServiceImpl implements CustomerService {
 				booking.setBill(fare);
 				booking.setDriver(driver);
 
+				driver.getTripBookingList().add(booking);
+				customer.getTripBookingList().add(booking);
+
+				driverRepository2.save(driver);
+				customerRepository2.save(customer);
+
 				booking.setDistanceInKm(distanceInKm);
 				booking.setFromLocation(fromLocation);
 				booking.setToLocation(toLocation);
@@ -65,8 +71,6 @@ public class CustomerServiceImpl implements CustomerService {
 				break;
 			}
 		}
-
-
 
 		tripBookingRepository2.save(booking);
 
