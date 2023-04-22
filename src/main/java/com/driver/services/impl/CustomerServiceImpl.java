@@ -47,18 +47,47 @@ public class CustomerServiceImpl implements CustomerService {
 		List<Cab> cabList=cabRepository2.findAll();
 		TripBooking booking = new TripBooking();
 
+		Customer customer = customerRepository2.findById(customerId).get();
+		List<Cab> cabs = cabRepository2.findAll();
+
+		Cab bookedCab = null;
+		for(Cab cab : cabs){
+			if (cab.isAvailable()){
+				bookedCab=cab;
+				break;
+			}
+		}
+
+		int fare = bookedCab.getPerKmRate()*distanceInKm;
+		Driver driver = bookedCab.getDriver();
+
+		booking.setCustomer(customer);
+		booking.setBill(fare);
+		booking.setDriver(driver);
+
+		booking.setDistanceInKm(distanceInKm);
+		booking.setFromLocation(fromLocation);
+		booking.setToLocation(toLocation);
+		booking.setTripStatus(TripStatus.CONFIRMED);
+
+		tripBookingRepository2.save(booking);
+
 		return booking;
 	}
 
 	@Override
 	public void cancelTrip(Integer tripId){
 		//Cancel the trip having given trip Id and update TripBooking attributes accordingly
-
+		TripBooking tripBooking = tripBookingRepository2.findById(tripId).get();
+		tripBooking.setTripStatus(TripStatus.CANCELED);
+		tripBookingRepository2.save(tripBooking);
 	}
 
 	@Override
 	public void completeTrip(Integer tripId){
 		//Complete the trip having given trip Id and update TripBooking attributes accordingly
-
+		TripBooking tripBooking = tripBookingRepository2.findById(tripId).get();
+		tripBooking.setTripStatus(TripStatus.COMPLETED);
+		tripBookingRepository2.save(tripBooking);
 	}
 }
