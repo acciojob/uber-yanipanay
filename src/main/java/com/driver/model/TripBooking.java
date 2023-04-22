@@ -16,7 +16,7 @@ public class TripBooking{
 
     private int distanceInKm;
 
-    private Status status;
+    private tripStatus tripStatus;
 
     private int bill;
 
@@ -29,12 +29,12 @@ public class TripBooking{
     @JoinColumn
     Driver driver;
 
-    public TripBooking(int tripBookingId, String fromLocation, String toLocation, int distanceInKm, Status status, int bill) {
+    public TripBooking(int tripBookingId, String fromLocation, String toLocation, int distanceInKm, tripStatus tripStatus, int bill) {
         this.tripBookingId = tripBookingId;
         this.fromLocation = fromLocation;
         this.toLocation = toLocation;
         this.distanceInKm = distanceInKm;
-        this.status = status;
+        this.tripStatus = tripStatus;
         this.bill = bill;
     }
 
@@ -73,12 +73,12 @@ public class TripBooking{
         this.distanceInKm = distanceInKm;
     }
 
-    public Status getTripStatus() {
-        return status;
+    public tripStatus getStatus() {
+        return tripStatus;
     }
 
-    public void setTripStatus(Status status) {
-        this.status = status;
+    public void setTripStatus(tripStatus tripStatus) {
+        this.tripStatus = tripStatus;
     }
 
     public int getBill() {
