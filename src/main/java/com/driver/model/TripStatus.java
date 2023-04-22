@@ -1,5 +1,5 @@
 package com.driver.model;
 
-public enum tripStatus {
+public enum TripStatus {
     CONFIRMED,CANCELED,COMPLETED
 }
